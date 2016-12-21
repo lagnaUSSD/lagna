@@ -23,20 +23,18 @@ $version = $receiver->getVersion(); // get the version
 $sessionId = $receiver->getSessionId(); // get the session ID;
 $ussdOperation = $receiver->getUssdOperation(); // get the ussd operation
 
+$data=file_get_contents("resources/locales/en.json");
+$content=json_decode("$data",true);
 
-$responseMsg="  ". localize("msg");
+
+
+$responseMsg=$content["mainmenu"]["title"];
+$responseMsg.=$content["mainmenu"]["menu_1"];
+$responseMsg.=$content["mainmenu"]["menu_2"];
 
 if($receiver->getUssdOperation()=="mo-init"){
     loadUssdSender($receiver,$responseMsg);
 }
-
-
-console.log("Kasun Edward");
-
-
-
-
-
 function loadUssdSender($sessionId, $responseMessage)
 {
     $password = "password";
@@ -71,7 +69,7 @@ function localize($phrase) {
     static $translations = NULL;
     /* If no instance of $translations has occured load the language file */
     if (is_null($translations)) {
-        $lang_file ="si.json";
+        $lang_file ="resources/locales/en.json";
         if (!file_exists($lang_file)) {
             $lang_file = INCLUDE_PATH . '/lang/' . 'en-us.txt';
         }
